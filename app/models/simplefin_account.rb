@@ -8,7 +8,8 @@ class SimplefinAccount < ApplicationRecord
 
   def upsert_simplefin_snapshot!(account_snapshot)
     snapshot = account_snapshot.with_indifferent_access
-    puts "Assigning current_balance=#{parse_balance(snapshot[:balance]).inspect} for account_id=#{snapshot[:id]}"
+    puts "[DEBUG] Importing account: id=#{snapshot[:id]} name=#{snapshot[:name]} balance=#{snapshot[:balance].inspect} available-balance=#{snapshot[:"available-balance"].inspect}"
+    
     update!(
       current_balance: parse_balance(snapshot[:balance]),
       available_balance: parse_balance(snapshot[:"available-balance"]),
