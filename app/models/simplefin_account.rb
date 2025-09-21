@@ -7,10 +7,8 @@ class SimplefinAccount < ApplicationRecord
   validate :has_balance
 
   def upsert_simplefin_snapshot!(account_snapshot)
-    # Convert to symbol keys or handle both string and symbol keys
     snapshot = account_snapshot.with_indifferent_access
-
-    # Map SimpleFin field names to our field names
+    puts "Assigning current_balance=#{parse_balance(snapshot[:balance]).inspect} for account_id=#{snapshot[:id]}"
     update!(
       current_balance: parse_balance(snapshot[:balance]),
       available_balance: parse_balance(snapshot[:"available-balance"]),
